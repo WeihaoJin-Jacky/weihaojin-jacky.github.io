@@ -2,6 +2,8 @@
  * Generative hero backdrop: a drifting node-and-edge graph in which pulses of
  * activation travel a few hops from node to node — a nod to message passing
  * in neural networks. A keepalive guarantees something is always gently lit.
+ * The cursor behaves like a live node: nearby dots part, brighten, and link
+ * back to it, so moving the mouse energizes and pulls the local graph.
  */
 
 type Node = {
@@ -31,6 +33,10 @@ const EDGE_DISTANCE = 130;
 const DRIFT_SPEED = 0.15;
 const POINTER_RADIUS = 140;
 const POINTER_FORCE = 0.6;
+// The cursor acts as a live node: dots within this radius brighten and link
+// back to it, so moving the mouse pulls a small constellation along.
+const POINTER_LINK_RADIUS = 180;
+const POINTER_GLOW = 0.55;
 const ACTIVATION_DECAY = 0.005;
 const ACTIVATION_CHANCE_PER_FRAME = 0.008;
 const PULSE_HOPS = 3;
@@ -88,7 +94,10 @@ export function startHeroCanvas(canvas: HTMLCanvasElement): void {
     for (const node of nodes) {
       node.x = wrap(node.x + node.vx * deltaFrames, width);
       node.y = wrap(node.y + node.vy * deltaFrames, height);
-      if (pointer.active) pushAwayFromPointer(node, deltaFrames);
+      if (pointer.active) {
+        pushAwayFromPointer(node, deltaFrames);
+        energizeFromPointer(node);
+      }
       node.activation = Math.max(0, node.activation - ACTIVATION_DECAY * deltaFrames);
       brightest = Math.max(brightest, node.activation);
     }
@@ -113,6 +122,13 @@ export function startHeroCanvas(canvas: HTMLCanvasElement): void {
     const falloff = (1 - distance / POINTER_RADIUS) ** 2;
     node.x += (dx / distance) * falloff * POINTER_FORCE * deltaFrames;
     node.y += (dy / distance) * falloff * POINTER_FORCE * deltaFrames;
+  }
+
+  function energizeFromPointer(node: Node): void {
+    const distance = Math.hypot(node.x - pointer.x, node.y - pointer.y);
+    if (distance > POINTER_LINK_RADIUS) return;
+    const proximity = 1 - distance / POINTER_LINK_RADIUS;
+    node.activation = Math.max(node.activation, proximity * POINTER_GLOW);
   }
 
   function startPulse(): void {
@@ -153,7 +169,30 @@ export function startHeroCanvas(canvas: HTMLCanvasElement): void {
     const { width, height } = canvas.getBoundingClientRect();
     context!.clearRect(0, 0, width, height);
     drawEdges();
+    drawPointerLinks();
     drawNodes();
+  }
+
+  function drawPointerLinks(): void {
+    if (!pointer.active) return;
+    context!.strokeStyle = colors.accent;
+    for (const node of nodes) {
+      const distance = Math.hypot(node.x - pointer.x, node.y - pointer.y);
+      if (distance > POINTER_LINK_RADIUS) continue;
+      const proximity = 1 - distance / POINTER_LINK_RADIUS;
+      context!.globalAlpha = proximity * 0.5;
+      context!.beginPath();
+      context!.moveTo(pointer.x, pointer.y);
+      context!.lineTo(node.x, node.y);
+      context!.stroke();
+    }
+    // A soft anchor at the cursor so the links read as intentional.
+    context!.globalAlpha = 0.1;
+    context!.fillStyle = colors.accent;
+    context!.beginPath();
+    context!.arc(pointer.x, pointer.y, 5, 0, Math.PI * 2);
+    context!.fill();
+    context!.globalAlpha = 1;
   }
 
   function drawEdges(): void {
