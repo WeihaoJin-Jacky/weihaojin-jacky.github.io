@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectEntry from '../components/ProjectEntry.astro';
+import PublicationEntry from '../components/PublicationEntry.astro';
+import NewsList from '../components/NewsList.astro';
+import ContactFooter from '../components/ContactFooter.astro';
+import { about, currentlyBuilding, news, publications, selectedWork } from '../data/site';
+---
+
+<BaseLayout>
+  <Hero />
+
+  <main>
+    <section aria-labelledby="about">
+      <SectionHeading number="01" title="About" id="about" />
+      <div class="about-body" data-reveal>
+        {about.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </section>
+
+    <section aria-labelledby="work">
+      <SectionHeading number="02" title="Selected Work" id="work" />
+      <div class="entries" data-spine>
+        <div class="spine" aria-hidden="true"><div class="spine-progress"></div></div>
+        {selectedWork.map((project) => <ProjectEntry project={project} />)}
+      </div>
+    </section>
+
+    <section aria-labelledby="building">
+      <SectionHeading number="03" title="Currently Building" id="building" />
+      <div class="entries" data-spine>
+        <div class="spine" aria-hidden="true"><div class="spine-progress"></div></div>
+        {currentlyBuilding.map((project) => <ProjectEntry project={project} />)}
+      </div>
+    </section>
+
+    <section aria-labelledby="publications">
+      <SectionHeading number="04" title="Publications" id="publications" />
+      {publications.map((publication) => <PublicationEntry publication={publication} />)}
+    </section>
+
+    <section aria-labelledby="news">
+      <SectionHeading number="05" title="News" id="news" />
+      <NewsList items={news} />
+    </section>
+  </main>
+
+  <ContactFooter />
+</BaseLayout>
+
+<script>
+  import { startScrollEffects } from '../scripts/scroll-effects';
+
+  startScrollEffects();
+</script>
+
+<style>
+  main {
+    max-width: var(--page-max);
+    margin-inline: auto;
+    padding-inline: var(--page-pad);
+  }
+
+  section {
+    margin-top: var(--space-6);
+  }
+
+  .entries {
+    position: relative;
+  }
+
+  .about-body {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 900px) {
+    .about-body {
+      margin-left: calc(var(--rail) + var(--rail-gap));
+    }
+  }
+</style>

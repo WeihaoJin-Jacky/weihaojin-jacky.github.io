@@ -1,0 +1,52 @@
+---
+import type { NewsItem } from '../data/site';
+
+type Props = {
+  items: NewsItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<ul role="list">
+  {
+    items.map((item) => (
+      <li data-reveal>
+        <span class="date">{item.date}</span>
+        <span class="text">{item.text}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-1) var(--rail-gap);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    li {
+      grid-template-columns: var(--rail) minmax(0, 1fr);
+    }
+  }
+
+  .date {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .text {
+    max-width: var(--measure);
+  }
+</style>

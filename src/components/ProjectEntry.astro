@@ -1,0 +1,124 @@
+---
+import type { Project } from '../data/site';
+import LinkChip from './LinkChip.astro';
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+---
+
+<article class="entry" data-reveal>
+  <span class="spine-node" aria-hidden="true"></span>
+
+  <aside class="rail">
+    <p class="dates">{project.dates}</p>
+    <p class="role">{project.role}</p>
+    <p class="org">{project.orgShort ?? project.org}</p>
+    {project.status === 'in-development' && <p class="status">In development</p>}
+  </aside>
+
+  <div class="body">
+    <h3><span class="title-text">{project.title}</span></h3>
+    {project.advisor && <p class="advisor">{project.advisor}</p>}
+    <p class="summary">{project.summary}</p>
+    {
+      project.links.length > 0 && (
+        <ul class="links" role="list">
+          {project.links.map((link) => (
+            <li>
+              <LinkChip link={link} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    position: relative;
+    display: grid;
+    gap: var(--space-3) var(--rail-gap);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    .entry {
+      grid-template-columns: var(--rail) minmax(0, 1fr);
+    }
+  }
+
+  .rail {
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+  }
+
+  @media (min-width: 900px) {
+    .rail {
+      position: relative;
+    }
+  }
+
+  .dates {
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+  }
+
+  .role {
+    color: var(--ink);
+    margin-top: var(--space-2);
+  }
+
+  .org {
+    color: var(--ink-soft);
+    margin-top: var(--space-1);
+  }
+
+  .status {
+    display: inline-block;
+    margin-top: var(--space-3);
+    padding: 0.15em 0.6em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  .title-text {
+    background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 0% 1.5px;
+    transition: background-size 260ms ease;
+  }
+
+  @media (hover: hover) {
+    .entry:hover .title-text {
+      background-size: 100% 1.5px;
+    }
+  }
+
+  .advisor {
+    font-size: var(--text-sm);
+    color: var(--ink-soft);
+    margin-top: var(--space-1);
+  }
+
+  .summary {
+    margin-top: var(--space-2);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+  }
+</style>

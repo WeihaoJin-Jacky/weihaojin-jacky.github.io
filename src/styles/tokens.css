@@ -1,0 +1,38 @@
+:root {
+  /* color — warm neutral paper with a single oxide-red accent */
+  --paper: #faf7f2;
+  --ink: #1c1917;
+  --ink-soft: #6b6259;
+  --line: #e6dfd5;
+  --accent: #9c3d1e;
+  --accent-wash: #9c3d1e14;
+
+  /* type — 1.25 modular scale on a 1.05rem base */
+  --font-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --text-sm: 0.84rem;
+  --text-base: 1.05rem;
+  --text-lg: 1.31rem;
+  --text-xl: 1.64rem;
+  --text-2xl: 2.05rem;
+  --text-hero: clamp(2.3rem, 6vw, 3.2rem);
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-body: 1.6;
+
+  /* space — 4px base scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+
+  /* layout */
+  --measure: 66ch;
+  --rail: 13rem;
+  --rail-gap: var(--space-5);
+  --page-max: 64rem;
+  --page-pad: clamp(1.25rem, 5vw, 3rem);
+}

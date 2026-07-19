@@ -1,0 +1,97 @@
+---
+import type { Publication } from '../data/site';
+import LinkChip from './LinkChip.astro';
+
+type Props = {
+  publication: Publication;
+};
+
+const { publication } = Astro.props;
+---
+
+<article class="entry" data-reveal>
+  <aside class="rail">
+    <p class="year">{publication.year}</p>
+    <p class="venue">{publication.venue}</p>
+  </aside>
+
+  <div class="body">
+    <h3><span class="title-text">{publication.title}</span></h3>
+    <p class="authors">{publication.authors}</p>
+    {
+      publication.links.length > 0 && (
+        <ul class="links" role="list">
+          {publication.links.map((link) => (
+            <li>
+              <LinkChip link={link} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: grid;
+    gap: var(--space-2) var(--rail-gap);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    .entry {
+      grid-template-columns: var(--rail) minmax(0, 1fr);
+    }
+  }
+
+  .rail {
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: var(--ink-soft);
+  }
+
+  .year {
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .venue {
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font-sans);
+  }
+
+  .title-text {
+    background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 0% 1.5px;
+    transition: background-size 260ms ease;
+  }
+
+  @media (hover: hover) {
+    .entry:hover .title-text {
+      background-size: 100% 1.5px;
+    }
+  }
+
+  .authors {
+    font-size: var(--text-sm);
+    color: var(--ink-soft);
+    margin-top: var(--space-1);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+  }
+</style>

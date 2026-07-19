@@ -1,0 +1,49 @@
+---
+type Props = {
+  number: string;
+  title: string;
+  id: string;
+};
+
+const { number, title, id } = Astro.props;
+---
+
+<h2 id={id}>
+  <a href={`#${id}`}>
+    <span class="number" aria-hidden="true">{number}</span>
+    <span class="title">{title}</span>
+  </a>
+</h2>
+
+<style>
+  h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  a {
+    display: grid;
+    gap: 0 var(--rail-gap);
+    align-items: baseline;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  @media (min-width: 900px) {
+    a {
+      grid-template-columns: var(--rail) minmax(0, 1fr);
+    }
+  }
+
+  a:hover .number {
+    color: var(--accent);
+  }
+
+  .number {
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    transition: color 120ms ease;
+  }
+</style>

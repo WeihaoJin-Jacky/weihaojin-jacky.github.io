@@ -1,0 +1,100 @@
+/*
+ * Motion contract shared across components. Hidden initial states are gated
+ * behind `html.js` + motion preference, so users without JavaScript or with
+ * reduced motion always get a fully visible, static page.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  :root.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 360ms ease,
+      transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  :root.js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Timeline spine — desktop only; below 900px the rail stacks and has no gutter */
+.spine {
+  display: none;
+}
+
+.spine-node {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .spine {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--rail) + var(--rail-gap) / 2);
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--line);
+  }
+
+  .spine-progress {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: top;
+    transform: scaleY(var(--spine-progress, 1));
+  }
+
+  .spine-node {
+    display: block;
+    position: absolute;
+    left: calc(var(--rail) + var(--rail-gap) / 2);
+    top: calc(var(--space-4) + 0.35rem);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    transition:
+      background 300ms ease,
+      border-color 300ms ease,
+      box-shadow 300ms ease,
+      transform 200ms ease;
+    z-index: 1;
+  }
+
+  [data-reveal].is-revealed .spine-node,
+  :root:not(.js) .spine-node {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-wash);
+  }
+
+  @media (hover: hover) {
+    [data-reveal]:hover .spine-node {
+      transform: translateX(-50%) scale(1.35);
+      box-shadow:
+        0 0 0 5px var(--accent-wash),
+        0 0 12px var(--accent-wash);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spine-node {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

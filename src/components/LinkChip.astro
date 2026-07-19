@@ -1,0 +1,63 @@
+---
+import type { PlaceholderLink } from '../data/site';
+
+type Props = {
+  link: PlaceholderLink;
+};
+
+const { link } = Astro.props;
+const isPlaceholder = link.href === null;
+---
+
+{
+  isPlaceholder ? (
+    <span class="chip chip-placeholder" aria-disabled="true">
+      {link.label}
+      <small>soon</small>
+    </span>
+  ) : (
+    <a class="chip" href={link.href}>
+      {link.label}
+    </a>
+  )
+}
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    padding: 0.2em 0.75em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      border-color 160ms ease,
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  a.chip:hover,
+  a.chip:focus-visible {
+    color: var(--paper);
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .chip-placeholder {
+    border-style: dashed;
+    color: var(--ink-soft);
+    cursor: default;
+  }
+
+  .chip-placeholder small {
+    font-size: 0.78em;
+    font-style: italic;
+    color: var(--ink-soft);
+    opacity: 0.7;
+  }
+</style>
