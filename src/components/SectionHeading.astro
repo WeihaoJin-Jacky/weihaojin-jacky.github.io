@@ -21,9 +21,12 @@ const { number, title, id } = Astro.props;
     margin-bottom: var(--space-3);
   }
 
+  /* Number sits beside the title on one baseline; at rail widths it moves
+     into the rail column so it aligns with entry dates below. */
   a {
     display: grid;
-    gap: 0 var(--rail-gap);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0 var(--space-2);
     align-items: baseline;
     text-decoration: none;
     color: inherit;
@@ -32,6 +35,7 @@ const { number, title, id } = Astro.props;
   @media (min-width: 900px) {
     a {
       grid-template-columns: var(--rail) minmax(0, 1fr);
+      gap: 0 var(--rail-gap);
     }
   }
 

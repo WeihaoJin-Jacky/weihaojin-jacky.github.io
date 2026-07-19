@@ -45,7 +45,7 @@ export const profile = {
   cv: null as PlaceholderLink | null,
   contact: [
     { label: 'Email', href: 'mailto:jackyjin@umich.com' },
-    { label: 'GitHub', href: 'https://github.com/weihaojin-ai' },
+    { label: 'GitHub', href: 'https://github.com/WeihaoJin-Jacky' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/weihao-jin/' },
   ] satisfies PlaceholderLink[],
 };
@@ -108,7 +108,7 @@ export const currentlyBuilding: Project[] = [
     dates: '2026 – Present',
     summary:
       'One sentence explaining the problem, what the project does, and what is currently being developed.',
-    links: [{ label: 'GitHub', href: 'https://github.com/weihaojin-ai/CustomNews' }],
+    links: [{ label: 'GitHub', href: 'https://github.com/WeihaoJin-Jacky/CustomNews' }],
     status: 'in-development',
   },
 ];
