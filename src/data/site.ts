@@ -75,7 +75,7 @@ export const selectedWork: Project[] = [
     links: [
       { label: 'Project Website', href: null },
       { label: 'GitHub', href: 'https://github.com/Ambient-Intelligence-Lab-UMich-EECS/GeoPrivacy' },
-      { label: 'Paper', href: 'VeilLens.pdf' },
+      { label: 'Paper', href: null },
     ],
   },
   {
@@ -133,7 +133,7 @@ export const publications: Publication[] = [
     venue: 'In submission',
     year: 2026,
     links: [
-      { label: 'Paper', href: 'VeilLens.pdf' },
+      { label: 'Paper', href: null },
       { label: 'Code', href: 'https://github.com/Ambient-Intelligence-Lab-UMich-EECS/GeoPrivacy' },
     ],
   },
