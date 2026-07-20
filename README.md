@@ -21,6 +21,8 @@ No component files need to change for content updates.
 | `npm run dev`     | Dev server at `localhost:4321`            |
 | `npm run build`   | Production build to `./dist/`             |
 | `npm run preview` | Preview the production build locally      |
+| `npm run astro -- dev stop` | Stop dev run      |
+
 
 ## Deploying
 

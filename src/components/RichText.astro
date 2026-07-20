@@ -1,0 +1,90 @@
+---
+/**
+ * Renders a paragraph of prose with inline `[label](href)` markdown links.
+ * An href that is not yet a real URL (e.g. a placeholder token like
+ * ADVISOR_URL) renders as pending text with a dotted underline, mirroring the
+ * "soon" treatment used for placeholder link chips elsewhere.
+ */
+type Segment =
+  | { kind: 'text'; value: string }
+  | { kind: 'link'; label: string; href: string }
+  | { kind: 'pending'; label: string };
+
+type Props = {
+  text: string;
+};
+
+const { text } = Astro.props;
+
+const LINK_PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g;
+const isRealHref = (href: string) => /^(https?:\/\/|mailto:|\/)/.test(href);
+
+function parse(source: string): Segment[] {
+  const segments: Segment[] = [];
+  let lastIndex = 0;
+
+  for (const match of source.matchAll(LINK_PATTERN)) {
+    const [full, label, href] = match;
+    const start = match.index ?? 0;
+    if (start > lastIndex) {
+      segments.push({ kind: 'text', value: source.slice(lastIndex, start) });
+    }
+    segments.push(
+      isRealHref(href!) ? { kind: 'link', label: label!, href: href! } : { kind: 'pending', label: label! },
+    );
+    lastIndex = start + full.length;
+  }
+
+  if (lastIndex < source.length) {
+    segments.push({ kind: 'text', value: source.slice(lastIndex) });
+  }
+  return segments;
+}
+
+const segments = parse(text);
+---
+
+<p>
+  {
+    segments.map((segment) =>
+      segment.kind === 'link' ? (
+        <a class="prose-link" href={segment.href}>
+          {segment.label}
+        </a>
+      ) : segment.kind === 'pending' ? (
+        <span class="prose-link-pending" title="Link coming soon">
+          {segment.label}
+        </span>
+      ) : (
+        segment.value
+      ),
+    )
+  }
+</p>
+
+<style>
+  .prose-link {
+    color: var(--ink);
+    text-decoration: none;
+    background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 100% 1.5px;
+    transition: color 160ms ease;
+  }
+
+  @media (hover: hover) {
+    .prose-link:hover {
+      color: var(--accent);
+    }
+  }
+
+  .prose-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .prose-link-pending {
+    color: var(--ink-soft);
+    border-bottom: 1.5px dotted var(--ink-soft);
+    cursor: help;
+  }
+</style>

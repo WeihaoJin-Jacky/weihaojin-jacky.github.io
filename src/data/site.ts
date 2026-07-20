@@ -38,8 +38,9 @@ export type NewsItem = {
 export const profile = {
   name: 'Weihao Jin',
   tagline:
-    'Computer Science student at the University of Michigan working on machine learning systems, trustworthy AI, and applied research.',
-  photo: null as string | null,
+    'Computer Science student at the University of Michigan working on machine learning systems, ML evaluation, and applied research.',
+  // Path is relative to `public/` (served at the site root), not a filesystem path.
+  photo: 'IMG_1247.JPG' as string | null,
   monogram: 'WJ',
   // Set to a link once a CV is available, e.g. { label: 'CV', href: '/cv.pdf' }.
   cv: null as PlaceholderLink | null,
@@ -47,6 +48,7 @@ export const profile = {
     { label: 'Email', href: 'mailto:jackyjin@umich.com' },
     { label: 'GitHub', href: 'https://github.com/WeihaoJin-Jacky' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/weihao-jin/' },
+    { label: 'Résumé', href: '/2026-Summer.pdf' }
   ] satisfies PlaceholderLink[],
 };
 
@@ -73,7 +75,7 @@ export const selectedWork: Project[] = [
     links: [
       { label: 'Project Website', href: null },
       { label: 'GitHub', href: 'https://github.com/Ambient-Intelligence-Lab-UMich-EECS/GeoPrivacy' },
-      { label: 'Paper', href: null },
+      { label: 'Paper', href: 'VeilLens.pdf' },
     ],
   },
   {
@@ -85,7 +87,7 @@ export const selectedWork: Project[] = [
     dates: 'Jan 2025 – Nov 2025',
     summary:
       'Contributed to a pipeline for analyzing glioblastoma gene expression and predicting molecular patterns from pathology images.',
-    links: [{ label: 'Poster', href: null }],
+    links: [{ label: 'Poster', href: 'DIAG_GBM.pdf' }],
   },
   {
     slug: 'gpr-reconstruction',
@@ -95,21 +97,32 @@ export const selectedWork: Project[] = [
     dates: 'May 2024 – Jul 2024',
     summary:
       'Developed deep-learning methods and synthetic-data pipelines for ground-penetrating radar reconstruction, increasing acceptable outputs from 55% to 76% and reducing false detections by 15%.',
-    links: [{ label: 'GitHub', href: null }],
+    links: [{ label: 'GitHub', href: 'https://github.com/WeihaoJin-Jacky/Radar-Model' }],
   },
 ];
 
-export const currentlyBuilding: Project[] = [
+// Smaller, curiosity-driven projects — exploratory by design, separate from the
+// main research track above.
+export const sideProjects: Project[] = [
   {
-    slug: 'personal-project',
-    title: 'Personal Project Name',
-    role: 'Creator',
-    org: 'Independent',
-    dates: '2026 – Present',
+    slug: 'ai-news-podcast',
+    title: 'AI News Podcast Generator',
+    role: 'Independent Project',
+    org: 'Personal',
+    dates: 'May 2025 – Sep 2025',
     summary:
-      'One sentence explaining the problem, what the project does, and what is currently being developed.',
-    links: [{ label: 'GitHub', href: 'https://github.com/WeihaoJin-Jacky/CustomNews' }],
-    status: 'in-development',
+      'An end-to-end news-to-podcast pipeline using semantic retrieval, LLM-generated dialogue, multi-voice TTS, and automated fact-checking — turns the day’s news into a 3–5 minute episode in 60–90 seconds.',
+    links: [{ label: 'Code', href: 'https://github.com/WeihaoJin-Jacky/CustomNews' }],
+  },
+  {
+    slug: 'pubmedqa-distillation',
+    title: 'PubMedQA with Knowledge Distillation',
+    role: 'Project Lead',
+    org: 'Four-person team',
+    dates: 'Jan 2025 – Apr 2025',
+    summary:
+      'Led a four-person team building a PyTorch distillation pipeline that compresses an 8B teacher into a 220M student for biomedical question answering.',
+    links: [{ label: 'Code', href: 'https://github.com/WeihaoJin-Jacky/Step-by-Step-Distillation-on-PubMedQA' }],
   },
 ];
 
@@ -120,7 +133,7 @@ export const publications: Publication[] = [
     venue: 'In submission',
     year: 2026,
     links: [
-      { label: 'Paper', href: null },
+      { label: 'Paper', href: 'VeilLens.pdf' },
       { label: 'Code', href: 'https://github.com/Ambient-Intelligence-Lab-UMich-EECS/GeoPrivacy' },
     ],
   },
@@ -141,8 +154,11 @@ export const news: NewsItem[] = [
   },
 ];
 
+// Paragraphs support inline `[label](href)` links. An href that is not yet a
+// real URL (like ADVISOR_URL) renders as pending text until it is filled in.
 export const about = [
-  'Computer Science student at the University of Michigan working across machine learning research and engineering.',
-  'My recent work includes first-author research on visual privacy, ML evaluation pipelines, and engineering infrastructure for systematic trading research. I am particularly interested in ML systems, reliable evaluation, computer vision, and building research ideas into usable systems.',
-  'I am currently preparing for research-oriented graduate study and seeking opportunities involving applied ML research or ML infrastructure.',
+  'I am a Computer Science student at the [University of Michigan, Ann Arbor](https://www.engin.umich.edu/) working across machine learning research and engineering.',
+  'I am currently a member of the [Ambient Intelligence Lab](https://ambient-intelligence-lab-umich-eecs.github.io/ami_lab_website/), where I am advised by [Professor Sun Ke](https://samsonsjarkal.github.io/KeSun/) and lead the development of [VeilLens](https://github.com/Ambient-Intelligence-Lab-UMich-EECS/GeoPrivacy), a multimodal system for analyzing and reducing visual privacy risks. I also work as a Research Engineer at [Square Kettle LLC](https://www.squarekettle.com/), building market-structure algorithms, backtesting infrastructure, and AI-assisted experimentation workflows.',
+  'Previously, I developed deep-learning methods and synthetic-data pipelines for ground-penetrating radar reconstruction at the [Research Institute of Tsinghua, Pearl River Delta](http://www.tsinghua-gd.org/).',
+  'My interests include ML systems, reliable evaluation, computer vision, and turning research ideas into usable systems. I am currently preparing for research-oriented graduate study and seeking opportunities in applied ML research and ML infrastructure.',
 ];

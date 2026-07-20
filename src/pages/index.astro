@@ -5,8 +5,9 @@ import SectionHeading from '../components/SectionHeading.astro';
 import ProjectEntry from '../components/ProjectEntry.astro';
 import PublicationEntry from '../components/PublicationEntry.astro';
 import NewsList from '../components/NewsList.astro';
+import RichText from '../components/RichText.astro';
 import ContactFooter from '../components/ContactFooter.astro';
-import { about, currentlyBuilding, news, publications, selectedWork } from '../data/site';
+import { about, news, publications, selectedWork, sideProjects } from '../data/site';
 ---
 
 <BaseLayout>
@@ -16,7 +17,7 @@ import { about, currentlyBuilding, news, publications, selectedWork } from '../d
     <section aria-labelledby="about">
       <SectionHeading number="01" title="About" id="about" />
       <div class="about-body" data-reveal>
-        {about.map((paragraph) => <p>{paragraph}</p>)}
+        {about.map((paragraph) => <RichText text={paragraph} />)}
       </div>
     </section>
 
@@ -28,22 +29,22 @@ import { about, currentlyBuilding, news, publications, selectedWork } from '../d
       </div>
     </section>
 
-    <section aria-labelledby="building">
-      <SectionHeading number="03" title="Currently Building" id="building" />
-      <div class="entries" data-spine>
-        <div class="spine" aria-hidden="true"><div class="spine-progress"></div></div>
-        {currentlyBuilding.map((project) => <ProjectEntry project={project} />)}
-      </div>
-    </section>
-
     <section aria-labelledby="publications">
-      <SectionHeading number="04" title="Publications" id="publications" />
+      <SectionHeading number="03" title="Publications" id="publications" />
       {publications.map((publication) => <PublicationEntry publication={publication} />)}
     </section>
 
     <section aria-labelledby="news">
-      <SectionHeading number="05" title="News" id="news" />
+      <SectionHeading number="04" title="News" id="news" />
       <NewsList items={news} />
+    </section>
+
+    <section aria-labelledby="side-projects">
+      <SectionHeading number="05" title="Side Projects" id="side-projects" />
+      <div class="entries" data-spine>
+        <div class="spine" aria-hidden="true"><div class="spine-progress"></div></div>
+        {sideProjects.map((project) => <ProjectEntry project={project} />)}
+      </div>
     </section>
   </main>
 
