@@ -87,7 +87,7 @@ export const selectedWork: Project[] = [
     dates: 'Jan 2025 – Nov 2025',
     summary:
       'Contributed to a pipeline for analyzing glioblastoma gene expression and predicting molecular patterns from pathology images.',
-    links: [{ label: 'Poster', href: 'DIAG_GBM.pdf' }],
+    links: [{ label: 'Poster', href: 'DIAG_GBM2.pdf' }],
   },
   {
     slug: 'gpr-reconstruction',
